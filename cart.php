@@ -84,7 +84,7 @@
   <body>
   
   <div class="site-wrap">
-  <?php include("./layouts/header.php"); $total=0;?> 
+  <?php include("./layouts/header.php");?> 
     
     <div class="site-section">
       <div class="container">
@@ -104,6 +104,7 @@
                 </thead>
                 <tbody>
                 <?php
+                  $total=0;
                   if(isset($_SESSION['carrito'])){
                     $arregloCarrito =$_SESSION['carrito'];
                     for($i=0;$i<count($arregloCarrito);$i++){
@@ -135,8 +136,9 @@
                     </td>
                     <td class="cant<?php echo $arregloCarrito[$i]['Id']; ?>">
                     $<?php echo $arregloCarrito[$i]['Precio'] * $arregloCarrito[$i]['Cantidad']; ?></td>
+                    <td><a href="#" class="btn btn-primary btn-sm btnEliminar" data-id="<?php echo $arregloCarrito[$i]['Id'];?>">X</a></td>
                   </tr>
-                  <td><a href="#" class="btn btn-primary btn-sm btnEliminar" data-id="<?php echo $arregloCarrito[$i]['Id'];?>">X</a></td>
+                  
                 <?php } } ?>
                   
                 </tbody>
@@ -221,20 +223,20 @@
       $(".btnEliminar").click(function(event){
         event.preventDefault();
         var id = $(this).data('id');
-        var boton = $(this);
+        var botton = $(this);
         $.ajax({
           method:'POST',
-          URL:'./eliminarCarrito.php',
+          URL:'./php/eliminarCarrito.php',
           data:{
             id:id
           }
         }).done(function(respuesta){
-          boton.parent('td').parent('tr').remove();
+          botton.parent('td').parent('tr').remove();
         });        
       });
       $(".txtCantidad").keyup(function(){
         var cantidad = $(this).val();
-        var precio = $(this).data('id');
+        var precio = $(this).data('precio');
         var id = $(this).data('id');
         incrementar(cantidad, precio, id);
       });
@@ -250,7 +252,7 @@
         $(".cant"+id).text("S/"+mult);
         $.ajax({
           method:'POST',
-          URL:'./actualizar.php',
+          URL:'./php/actualizar.php',
           data:{
             id:id,
             cantidad:cantidad

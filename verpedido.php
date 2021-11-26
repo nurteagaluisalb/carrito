@@ -1,4 +1,4 @@
-
+ 
 <?php
 include "./php/conexion.php";
 if(!isset($_GET['id_venta'])){

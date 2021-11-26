@@ -13,16 +13,16 @@ if(isset($_POST['c_account_password'])){
     $password = $_POST['c_account_password'];
   }
 }
-$conexion->query("insert into usuario (nombre,telefono,email,password,img_perfil,nivel) 
-values(   
-  '".$_POST['c_fname']." ".$_POST['c_lname']."',
-  '".$_POST['c_phone']."',
-  '".$_POST['c_email_address']."',
-  '".sha1($password)."',
-  'default.jpg',
-  'cliente'
-)
-")or die($conexion->error); 
+// +  
+// $conexion->query("insert into usuario (nombre,telefono,email,password,nivel) 
+// values(   
+
+//   '".$_POST['c_diff_fname']." ".$_POST['c_lname']."',
+//   '".$_POST['c_diff_phone']."',
+//   '".$_POST['c_diff_email_address']."',
+//   '".sha1($password)."',
+//   'cliente'
+// ")or die($conexion->error); 
 $id_usuario = $conexion->insert_id;
 
 $fecha = date('Y-m-d h:m:s');
@@ -38,8 +38,9 @@ for($i=0; $i<count($arreglo);$i++){
       ".$arreglo[$i]['Precio'].",
       ".$arreglo[$i]['Cantidad']*$arreglo[$i]['Precio']."
       )")or die($conexion->error);
-    $conexion->query("update productos set inventario = inventario-".$arreglo[$i]['Cantidad']."where id".$arreglo[$i]['Id'])or die($conexion->error);
+  // $conexion->query("update productos set inventario = inventario-".$arreglo[$i]['Cantidad']."where id=".$arreglo[$i]['Id'])or die($conexion->error);
 }
+// +
 $conexion->query("insert into envios(pais,company,direccion,estado,cp,id_venta) 
     values(
       '".$_POST['country']."',
@@ -50,7 +51,7 @@ $conexion->query("insert into envios(pais,company,direccion,estado,cp,id_venta)
       $id_venta
     )
     ") or die($conexion->error);
-  include "./php/mail.php";  
+include "./php/mail/enviarmail.php";  
 unset($_SESSION['carrito']);
 ?>
 

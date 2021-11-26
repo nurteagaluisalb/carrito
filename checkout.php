@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['carrito'])){
+if(!isset($_SESSION['carrito'])){
   header('Location: ./index.php');
 
 }
@@ -31,10 +31,9 @@ $arreglo = $_SESSION['carrito'];
   </head>
   <body>
   
+  <form action="./thankyou.php" method="post">
   <div class="site-wrap">
-    <?php include("./layouts/header.php"); ?> 
-    
-    <form action="./thankyou.php" method="post">
+    <?php include("./layouts/header.php");?> 
       <div class="site-section">
         <div class="container">
           <div class="row mb-5">
@@ -110,7 +109,7 @@ $arreglo = $_SESSION['carrito'];
                   </div>
 
                   <div class="form-group">
-                    <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account" role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1" id="c_create_account">¿Crear una Cuenta?</label>
+                    <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account" role="button" aria-expanded="true" aria-controls="create_an_account"><input type="checkbox" value="1" id="c_create_account">¿Crear una Cuenta?</label>
                     <div class="collapse" id="create_an_account">
                       <div class="py-2">
                         <p class="mb-3">Cree una cuenta ingresando la información a continuación. Si es un cliente recurrente, inicie sesión en la parte superior de la página. </p>
@@ -235,14 +234,12 @@ $arreglo = $_SESSION['carrito'];
                           <th>Productos</th>
                           <th>Total</th>
                         </thead>
-                        <?php 
-                          
-                        $total=0;
-                        ?>
+                        
                         <tbody>
                           <?php
+                            $total=0;
                             for($i=0;$i<count($arreglo);$i++){
-                              $total =$total+ ($arreglo[$i]['Precio']*$arreglo[$i]['cantidad'])
+                              $total =$total+ ($arreglo[$i]['Precio']*$arreglo[$i]['Cantidad']);
                           ?>
                             <tr>
                               <td><?php echo $arreglo[$i]['Nombre']; ?> </td>
@@ -253,7 +250,7 @@ $arreglo = $_SESSION['carrito'];
                             }
                           ?>
                           <tr>
-                          <td>Order Total</td>
+                          <td>Total de orden</td>
                           <td>S/<?php echo number_format($total, 2, '.', '');?> </td>
                           </tr>
 
@@ -303,10 +300,10 @@ $arreglo = $_SESSION['carrito'];
           <!-- </form> -->
         </div>
       </div>
-    </form>
     <?php include("./layouts/footer.php"); ?> 
   </div>
 
+  </form>
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
   <script src="js/popper.min.js"></script>
